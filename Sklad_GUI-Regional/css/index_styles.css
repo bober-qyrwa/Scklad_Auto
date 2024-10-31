@@ -62,6 +62,386 @@ button
     display: none;
 }
 
+.modal
+{
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    background: radial-gradient(var(--accent-clr) 30%, transparent);
+    animation: modalAppearance 1s ease-in-out;
+}
+
+@keyframes modalAppearance {
+    from{
+        opacity: 0;
+        size: 0;
+    }
+
+    to{
+        opacity: 1;
+        size: 1;
+    }
+}
+
+.modal_isVisible
+{
+    display: flex;
+}
+
+.modal_isHidden
+{
+    display: none;
+    animation: modalDisappearance 1s ease-in-out;
+}
+
+@keyframes modalDisappearance {
+    from{
+        display: flex;
+        opacity: 1;
+        scale: 1;
+    }
+
+    to{
+        opacity: 0;
+        scale: 10;
+        display: none;
+    }
+}
+
+.modal_clueContainer
+{
+    color: var(--base-clr);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    width: auto;
+    aspect-ratio: 1/1;
+    padding: 7rem;
+}
+
+.modal_clueContainer h1
+{
+    font-size: 4rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.modal_p_container
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.modal_p_container button
+{
+    width: 14rem;
+    height: 6rem;
+    border-radius: var(--border-radius);
+    color: white;
+    font-size: 1.5rem;
+}
+
+#cancel::before
+{
+    content: '';
+    position: absolute;
+    width: 14rem;
+    height: 6rem;
+    background: conic-gradient(from var(--angle), transparent 50%, #ff0000, transparent);
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    animation: rotate 1s infinite linear;
+    opacity: 0;
+}
+
+#cancel:hover::before
+{
+    opacity: 1;
+    transition: 1s ease-in-out;
+}
+
+#cancel:not(:hover)::before
+{
+    opacity: 0;
+    transition: 2s ease-in-out;
+}
+
+.modal_p_container .modal_cancel
+{
+    margin-right: 3rem;
+    background-color: red;
+    position: relative;
+    z-index: 1;
+}
+
+.modal-custom-file-upload
+{
+    background: var(--accent-clr);
+    position: relative;
+    z-index: 1;
+    width: 14rem;
+    height: 6rem;
+    border-radius: var(--border-radius);
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#modal-custom-file-upload::before
+{
+    content: '';
+    position: absolute;
+    width: 14rem;
+    height: 6rem;
+    background: conic-gradient(from var(--angle), transparent 50%, var(--accent-clr), transparent);
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    animation: rotate 1s infinite linear;
+    opacity: 1;
+}
+
+#modal-custom-file-upload::before
+{
+    opacity: 1;
+    transition: 1s ease-in-out;
+}
+
+#modal-custom-file-upload:not(:hover)::before
+{
+    opacity: 0;
+    transition: 2s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modal_f
+{
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    background: radial-gradient(var(--accent-clr) 30%, transparent);
+    animation: modalAppearance 1s ease-in-out;
+}
+
+.modal_isHidden
+{
+    display: none;
+    animation: modalDisappearance 1s ease-in-out;
+}
+
+.output_container
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#output_p
+{
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+#output
+{
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.modal_f_clueContainer
+{
+    color: var(--base-clr);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    width: auto;
+    aspect-ratio: 1/1;
+    padding: 7rem;
+}
+
+.modal_f_clueContainer h1
+{
+    font-size: 4rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.modal_f_p_container
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.modal_f_p_container button
+{
+    width: 14rem;
+    height: 6rem;
+    border-radius: var(--border-radius);
+    color: white;
+    font-size: 1.5rem;
+}
+
+#cancel_f::before
+{
+    content: '';
+    position: absolute;
+    width: 14rem;
+    height: 6rem;
+    background: conic-gradient(from var(--angle), transparent 50%, #ff0000, transparent);
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    animation: rotate 1s infinite linear;
+    opacity: 0;
+}
+
+#cancel_f:hover::before
+{
+    opacity: 1;
+    transition: 1s ease-in-out;
+}
+
+#cancel_f:not(:hover)::before
+{
+    opacity: 0;
+    transition: 2s ease-in-out;
+}
+
+.modal_f_p_container .modal_file_cancel
+{
+    margin-right: 3rem;
+    background-color: red;
+    position: relative;
+    z-index: 1;
+}
+
+.modal_file_enter
+{
+    background: var(--accent-clr);
+    position: relative;
+    z-index: 1;
+    width: 14rem;
+    height: 6rem;
+    border-radius: var(--border-radius);
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#enter_f::before
+{
+    content: '';
+    position: absolute;
+    width: 14rem;
+    height: 6rem;
+    background: conic-gradient(from var(--angle), transparent 50%, var(--accent-clr), transparent);
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    animation: rotate 1s infinite linear;
+    opacity: 1;
+}
+
+#enter_f::before
+{
+    opacity: 1;
+    transition: 1s ease-in-out;
+}
+
+#enter_f:not(:hover)::before
+{
+    opacity: 0;
+    transition: 2s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .clue.clue_isVisible
 {
     position: absolute;
@@ -121,6 +501,31 @@ button
     transition: 1s linear;
     position: absolute;
     bottom: 0;
+}
+
+.closeClue
+{
+    position: absolute;
+    width: 1rem;
+    aspect-ratio: 1/1;
+    padding: 1rem;
+    margin-right: 1rem;
+    top: 0;
+    right: 0;
+}
+
+.closeClue img 
+{
+    width: inherit;
+    aspect-ratio: 1/1;
+}
+
+.ClueTxt
+{
+    width: max-content;
+    height: max-content;
+    font-size: 2rem;
+    margin-top: 1rem;
 }
 
 header {
@@ -247,15 +652,14 @@ header a:hover {
     position: relative;
     width: min(60rem, 80svw);
     height: min(40rem, 70svh);
-    transform: translateY(15%);
     background-color: var(--second-clr);
     border: solid var(--line-clr) 0.15rem;
     border-radius: var(--border-radius);
-    /* animation: detailSearch_appearance 1s ease-in-out; */
+    animation: detailSearch_appearance 1s ease-in-out;
     margin: auto;
 }
 
-/* @keyframes detailSearch_appearance {
+@keyframes detailSearch_appearance {
     from
     {
         transform: translateY(-500px);
@@ -265,13 +669,12 @@ header a:hover {
 
     to
     {
-        transform: translateY(32.5px);
         opacity: 1;
         scale: 1;
     }
-} */
+}
 
-@media(max-width: 864px) {
+/* @media(max-width: 864px) {
     .detailSearch
     {
         display: none;
@@ -283,7 +686,7 @@ header a:hover {
     {
         display: none;
     }
-}
+} */
 
 .textSearch
 {
@@ -297,6 +700,51 @@ header a:hover {
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
 }
+
+
+
+.file_button img
+{
+    width: 3rem;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+}
+
+.file_button::before
+{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    background-color: transparent;
+    border-bottom-left-radius: 0.85rem;
+    transform: scaleX(0) translateX(-45%);
+    transition: all 500ms ease-in-out;
+    background: conic-gradient(from var(--angle), transparent 50%, red, transparent);
+    animation: rotate 3s infinite linear;
+    opacity: 0;
+}
+
+.file_button::after
+{
+    content: '';
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+    height: 2rem;
+    transform: translateX(-55%);
+    background: linear-gradient(white 75%, transparent);
+}
+
+.file_button:hover::before, .file_button:focus-visible::before
+{
+    transform: scaleX(100%) translateX(-45%);
+    opacity: 1;
+}
+
+
+
 
 .custom-file-upload img
 {
@@ -452,6 +900,7 @@ input
     align-items: center;
     margin: 0;
     position: relative;
+    overflow-y: hidden;
 }
 
 .inputs
@@ -577,7 +1026,7 @@ input
 .inputInvalid
 {
     animation: 3s inputInvalidBorder ease-in-out infinite;
-    animation-delay: 0.5s;
+    animation-delay: 0.5s !important;
 }
 
 @keyframes inputInvalidBorder{
@@ -618,6 +1067,19 @@ input
     scale: 0.95;
     background-color: #008145;
 }
+
+&:hover
+{
+    border: #00b15e solid 0.05rem;
+    background: #0d7e49;
+    transition: 0.5s ease-in-out;
+}
+&:not(:hover)
+{
+    border: #00b15e solid 0rem;
+    background: #0c7041;
+    transition: 0.5s ease-in-out;
+}
 }
 
 @keyframes quantityArrowAppearance {
@@ -649,7 +1111,7 @@ input
 
 .clickMe{
     border: #00b15e solid 0.45rem;
-    animation: clickMe 1s infinite;
+    animation: clickMe 1s infinite ease-in-out;
 }
 
 @keyframes clickMe {
@@ -691,21 +1153,18 @@ input
     {
         opacity: 0;
         transform: translateX(0);
-        z-index: calc('-infinite');
         font-weight: 100;
     }
 
     30%
     {
         opacity: 0.25;
-        z-index: calc('-infinite');
     }
 
     100%
     {
         opacity: 1;
         transform: translateX(1.5rem);
-        z-index: 1000;
         font-weight: bold;
     }
 }
@@ -778,6 +1237,11 @@ input
     color: var(--accent-clr);
 }
 
+.quantityInput.inputInvalid ~ label
+{
+    color: red;
+}
+
 .quantityInput.inputValid_leftSlide ~ label
 {
     transform: translateX(-5.6rem);
@@ -831,13 +1295,14 @@ input
 .quantityInput.inputValid
 {
     transition: 0s;
-    transform: translateX(-0.75rem);
     border: 2px solid var(--accent-clr);
     background: transparent;
     text-align: center;
     width: 4.5rem;
-    animation: 1s quantityInputBorder cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: 1s quantityInputBorder cubic-bezier(0.075, 0.82, 0.165, 1); 
 }
+
+
 
 @keyframes quantityInputBorder {
     from{
@@ -1041,6 +1506,18 @@ input
     scale: 0.95;
     background: #008145;
 }
+&:hover
+{
+    border: #00b15e solid 0.05rem;
+    background: #0d7e49;
+    transition: 0.5s ease-in-out;
+}
+&:not(:hover)
+{
+    border: #00b15e solid 0rem;
+    background: #0c7041;
+    transition: 0.5s ease-in-out;
+}
 }
 
 @keyframes quantityPlusAppearance {
@@ -1054,6 +1531,24 @@ input
         scale: 1;
     }
 }
+
+.plus_valid
+{
+    width: 4rem;
+    height: 4rem;
+    position: relative;
+    font-size: 2rem;
+    border: var(--accent-clr) 2px solid !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    background: #fff !important;
+    color: var(--accent-clr);
+    transition: 1s ease-in-out;
+}
+
 
 .quantityPlus.quantityPlus_clicked
 {
@@ -1111,7 +1606,6 @@ input
     left: 50%;
     top: 50%;
     translate: -50% -50%;
-    z-index: calc(-1 * "infinite");
     border-radius: 2rem;
     padding: 0.5rem;
     animation: rotate 1s infinite linear;
@@ -1133,7 +1627,6 @@ input
     left: 50%;
     top: 50%;
     translate: -50% -50%;
-    z-index: calc("infinite");
     border-radius: 2rem;
     padding: 0;
     opacity: 1;
@@ -1200,7 +1693,6 @@ input
     height: 100%;
     width: 50%;
     text-align: center;
-    z-index: calc('infinity');
     transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
     border-top-left-radius: 0;
     border-top-right-radius: 0.89rem;
@@ -1337,4 +1829,28 @@ h2
 #left_overlay_btn
 {
     display: none;
+}
+
+.detailSearch.form_hidden
+{
+    display: none;
+    animation: form_disappearance 1s ease-in-out;
+
+}
+
+@keyframes form_disappearance {
+    from
+    {
+        display: flex;
+        opacity: 1;
+        scale: 1;
+    }
+
+    to
+    {
+        opacity: 0;
+        scale: 0;
+        transform: translateY(-30rem);
+        display: none;
+    }
 }

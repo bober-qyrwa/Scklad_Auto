@@ -12,23 +12,24 @@
         <ul>
             <li><a href="#">Автоматизированный склад</a></li>
             <li><a href="#/tutorial">Обучение</a></li>
-            <li><a href="#/login">Войти</a></li>
+            <li><a href="#detailSearch">Получить</a></li>
             <li><button onclick = open_sidebar()><svg height="55px" viewBox="0 -960 960 960" width="55px" fill="#ffffff"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></button></li>
         </ul>
     </header>
     <nav class="sidebar">
         <ul>
             <li><button onclick = close_sidebar()><svg xmlns="http://www.w3.org/2000/svg" height="55px" viewBox="0 -960 960 960" width="55px" fill="#ffffff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button></li>
-            <li><a href="#/login">Войти</a></li>
-            <li><a href="#/tutorial">Обучение</a></li>
+            <li><a href="#/login">Получить</a></li>
+            <li><a href="#/tutorial">Обучение</a></li>!
         </ul>
     </nav>
-    <div class="detailSearch">
+    <div class="detailSearch" id="detailSearch">
         <div class="textSearch">
             <form class="search_form" method="dialog">
                 <h1>Поиск</h1>
-                <input type="file" id="fileInput" hidden/>
+                <input type="file" id="fileInput" class="fileInput" accept=".txt" hidden>
                 <label for="fileInput" class="custom-file-upload"><img src="./css/img/folder.png" alt="Загрузить файл"></label>
+                <button class="file_button hidden"><img id="file_button_img" src="./css/img/folder.png" alt="Загрузить файл"></button>
                 <p class="searchTitle">Или используйте строку поиска</p>
                 <div class="allInputs">
                     <div class="inputs">
@@ -79,16 +80,34 @@
     <!-- Подсказки -->
     <div class="clue clue_is_NOT_Visible">
         <div class="clue-timeline"></div>
-        <!-- <p class="quantityInputClueTxt">aaaaa</p> -->
+        <button class="closeClue"><img src="./css/img/close.png" alt="X"></button>
+        <p class="ClueTxt from_sendData hidden">Заказ отправлен успешно, ожидайте!</p>
+        <p class="ClueTxt quantityZero hidden">Было указано количество, равное 0, вы не получите наименование</p>
+        <!-- <p class="ClueTxt continueSearch hidden">Вы выбрали продолжать поиск</p> -->
     </div>
 
     <!-- Модалки -->
-    <div class="modal">
+    <div class="modal modal_isHidden">
         <div class="modal_clueContainer">
-            <h1>Выберите</h1>
+            <h1>Отправить файл?</h1>
             <div class="modal_p_container">
-                <p>продолжить вводить заказ через строку поиска</p>
-                <p>или использовать отправку заказа файлом</p>
+                <button class="modal_cancel" id="cancel">Отмена</button>
+                <input type="file" id="modal-fileInput" class="fileInput" accept=".txt" hidden>
+                <label for="modal-fileInput" class="modal-custom-file-upload" id="modal-custom-file-upload">Продолжить</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal_f modal_isHidden">
+        <div class="modal_f_clueContainer">
+            <h1>Проверьте файл</h1>
+            <div class="output_container">
+                <p id="output_p">Контент в файле:</p>
+                <p id="output"></p>
+            </div>
+            <div class="modal_f_p_container">
+                <button class="modal_file_cancel" id="cancel_f">Отмена</button>
+                <button class="modal_file_enter" id="enter_f">Отправить</button>
             </div>
         </div>
     </div>

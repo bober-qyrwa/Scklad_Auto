@@ -54,3 +54,20 @@ function turn_overlay_back() {
     right_overlay_btn.style.display = 'flex';
     left_overlay_btn.style.display = 'none';
 }
+
+function handleResize() {
+    console.log("aaa")
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    handleResize();
+})
+
+const observer = new ResizeObserver(entries => {
+    for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        handleResize();
+    }
+});
+
+observer.observe(document.body);

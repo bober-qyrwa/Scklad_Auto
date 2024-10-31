@@ -24,7 +24,6 @@
 
 
 function quantityUlAppearance() {
-    const inputs = document.querySelector(".inputs");
     const quantityLi = document.querySelectorAll(".quantityLi");
     const quantityInput = document.querySelector(".quantityInput");
     const btn1 = document.querySelector(".quantityButton");
@@ -47,7 +46,6 @@ function quantityUlAppearance() {
 }
 
 function quantityUlDisappearance() {
-    const inputs = document.querySelector(".inputs");
     const quantityLi = document.querySelectorAll(".quantityLi");
     const quantityInput = document.querySelector(".quantityInput");
     const btn1 = document.querySelector(".quantityButton");
@@ -79,7 +77,24 @@ const header = document.querySelector(".main-header");
 const textSearch = document.querySelector('.textSearch');
 const quantityLi = document.querySelectorAll(".quantityLi");
 const fileInput = document.querySelector('.fileInput');
-const quantityInputClue = document.querySelector(".clue");
+const Clue = document.querySelector(".clue");
+const quantityButton = document.querySelector(".quantityButton");
+const quantityBtn = document.querySelector(".quantityBtn");
+const modal = document.querySelector(".modal");
+const file_button = document.querySelector(".file_button");
+const file_label = document.querySelector(".custom-file-upload");
+const modal_cancel = document.querySelector(".modal_cancel");
+const modal_file = document.querySelector(".modal_file");
+const closeClue = document.querySelector(".closeClue");
+const ClueTxt_from_sendData = document.querySelector(".from_sendData");
+var ClueTxt_from_quantityZero_p = document.querySelector(".quantityZero");
+let ClueTxt_from_quantityZero;
+const dictionary = {};
+const detailSearch = document.querySelector('.detailSearch');
+const modal_f = document.querySelector('.modal_f');
+const output = document.getElementById('output');
+const plus = document.querySelector(".quantityPlus");
+
 
 function handleKeyPress1(event) {
     if (event.key === "ArrowRight" || event.key === "Enter") {
@@ -88,7 +103,6 @@ function handleKeyPress1(event) {
         const trimmedValue = input.value.trim();
 
         if (trimmedValue === "") {
-            console.log("Поле ввода пусто!");
         } else {
             addNewInput();
             nameInput_left_slide_2rem();
@@ -113,7 +127,6 @@ function handleKeyPress2(event) {
         }
         if (event.key === "ArrowUp" || event.key === "ArrowRight" || event.key === "Enter") {
             if (quantityInput.value.trim() === '') {
-                quantityInput_isEmpty();
             } else {
                 quantityUlDisappearance();
                 quantityPlusAppearance();
@@ -157,6 +170,10 @@ input.addEventListener('focus', () => {
     show_quantityArrow();
     input.classList.remove("inputInvalid");
     sendData.classList.remove("inputInvalid_sendData");
+    fileInput.classList.add("hidden");
+    // fileInput.style.display = 'none';
+    file_label.classList.add("hidden");
+    file_button.classList.remove("hidden");
 });
 
 input.addEventListener('blur', () => {
@@ -174,15 +191,6 @@ input.addEventListener('blur', () => {
 
 qContainer.addEventListener("keydown", handleKeyPress2);
 
-// quantityInput.addEventListener("input", function() {
-//     this.value = this.value.replace(/[^0-9]/g, '');
-//     // Написать добавление класса, который добавляет инвалидный класс, если инпут пуст
-//     if (this.value.trim() === '') {
-//         quantityInput.classList.add("inputInvalid");
-//     }
-// });
-
-const quantityBtn = document.querySelector(".quantityBtn");
 quantityBtn.addEventListener("click", () => {
     quantityUlDisappearance();
     quantityPlusAppearance();
@@ -207,7 +215,7 @@ quantityItems.forEach(item => {
 
         item.addEventListener('click', () => {
             if (quantityInput.value.trim() === '') {
-                quantityInput_isEmpty();
+                // quantityInput_isEmpty();
             } else {
                 quantityUlDisappearance();
                 quantityPlusAppearance();
@@ -264,25 +272,150 @@ checkInputValue();
 quantityInput.addEventListener('input', () => {
     checkInputValue();
     quantityInput.value = quantityInput.value.replace(/[^0-9]/g, '');
-    // Написать добавление класса, который добавляет инвалидный класс, если инпут пуст
+
     if (quantityInput.value.trim() === '') {
         quantityInput.classList.add("inputInvalid");
         quantityInput.classList.remove('inputValid');
     } else {
         quantityInput.classList.remove("inputInvalid");
     }
+    if (quantityInput.value.trim() === '0') {
+        ClueTxt_from_quantityZero_p.textContent += ' ' + '"' + input.value + '"';
+        ClueTxt_from_quantityZero = ClueTxt_from_quantityZero_p;
+        quantityInput.classList.add("inputInvalid");
+        quantityInput.classList.remove('inputValid');
+    }
 });
+
+function removeLeadingZero(num) {
+    // Проверяем, является ли число нулем
+    if (num === 0) {
+        return parseInt(num); // Возвращаем 0 без изменений
+    }
+
+    // Преобразуем число в строку
+    let strNum = num.toString();
+
+    // Проверяем, равна ли первая цифра '0'
+    if (strNum.charAt(0) === '0') {
+        // Удаляем первый символ и возвращаем результат
+        return parseInt(strNum.slice(1), 10);
+    }
+
+    // Если первой цифры '0' нет, возвращаем число как есть
+    return parseInt(num);
+}
 
 quantityInput.addEventListener('click', () => {
     quantityInput.classList.remove("inputInvalid");
 })
 
 quantityInput.addEventListener('blur', () => {
-    if (quantityInput.value.trim() === '') {
+    if (quantityInput.value.trim() === ''|| quantityInput.value.trim() === '0') {
         quantityInput.classList.add("inputInvalid");
+        quantityInput.classList.remove("inputValid");
     } else {
         quantityInput.classList.remove("inputInvalid");
         quantityInput.classList.add("inputValid");
+    }
+    if (Clue.classList.contains("clue_isVisible")) {
+        setTimeout(() => {
+            if (quantityInput.value.trim() === '0') {
+                quantityInput.classList.add("inputInvalid");
+                quantityInput.classList.remove("inputValid");
+                Clue.classList.add("clue_isVisible");
+                Clue.classList.remove("clue_is_NOT_Visible");
+                header.classList.add("header_onClue");
+                ClueTxt_from_quantityZero.classList.remove("hidden");
+        
+                const timeline = document.querySelector(".clue-timeline");
+                const initialWidth = 100;
+                const decreaseAmount = initialWidth / 4;
+                let currentWidth = initialWidth;
+                
+                timeline.style.width = initialWidth + 'vw';
+        
+                let intervalId = setInterval(() => {
+                    currentWidth -= decreaseAmount;
+                    timeline.style.width = currentWidth + 'vw';
+        
+                    if (currentWidth <= 0) {
+                        clearInterval(intervalId);
+                    }
+                }, 1000);
+        
+                if (Clue.classList.contains("clue_isVisible")) {
+                    sendData.classList.add('sendData_formValid');
+                }
+        
+                const timeoutId = setTimeout(() => {
+                    Clue.classList.add("clue_is_NOT_Visible");
+                    header.classList.remove("header_onClue");
+                    ClueTxt_from_quantityZero.classList.add("hidden");
+                    timeline.style.width = 100 + "vw";
+                    clearInterval(intervalId);
+                }, 5000);
+        
+                closeClue.addEventListener("click", () => {
+                    Clue.classList.add("clue_is_NOT_Visible");
+                    header.classList.remove("header_onClue");
+                    clearInterval(intervalId);
+                    clearTimeout(timeoutId);
+                    timeline.style.width = 100 + "vw";
+                    ClueTxt_from_quantityZero.classList.add("hidden");
+                });
+            } else {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+            }
+        }, 1000);
+    } else {
+        if (quantityInput.value.trim() === '0') {
+            Clue.classList.add("clue_isVisible");
+            Clue.classList.remove("clue_is_NOT_Visible");
+            header.classList.add("header_onClue");
+            ClueTxt_from_quantityZero.classList.remove("hidden");
+    
+            const timeline = document.querySelector(".clue-timeline");
+            const initialWidth = 100;
+            const decreaseAmount = initialWidth / 4;
+            let currentWidth = initialWidth;
+            
+            timeline.style.width = initialWidth + 'vw';
+    
+            let intervalId = setInterval(() => {
+                currentWidth -= decreaseAmount;
+                timeline.style.width = currentWidth + 'vw';
+    
+                if (currentWidth <= 0) {
+                    clearInterval(intervalId);
+                }
+            }, 1000);
+    
+            if (Clue.classList.contains("clue_isVisible")) {
+                sendData.classList.add('sendData_formValid');
+            }
+    
+            const timeoutId = setTimeout(() => {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+                ClueTxt_from_quantityZero.classList.add("hidden");
+                timeline.style.width = 100 + "vw";
+                clearInterval(intervalId);
+            }, 5000);
+    
+            closeClue.addEventListener("click", () => {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+                clearInterval(intervalId);
+                clearTimeout(timeoutId);
+                timeline.style.width = 100 + "vw";
+                ClueTxt_from_quantityZero.classList.add("hidden");
+            });
+        } else {
+            Clue.classList.add("clue_is_NOT_Visible");
+            header.classList.remove("header_onClue");
+        }
     }
 })
 
@@ -291,7 +424,6 @@ document.querySelector(".quantityArrow").addEventListener('click', function() {
     const trimmedValue = inputField.value.trim();
 
     if (trimmedValue === "") {
-        console.log("Поле ввода пусто!!!");
     } else {
         const event_quantityArrow = new KeyboardEvent('keydown', {
             key: 'ArrowRight',
@@ -371,14 +503,18 @@ function addNewInputs() {
     qInput_p.className = 'qInput_p';
 
 
-        const quantityValue = document.getElementById('quantityInput').value;
-        const nameValue = document.getElementById('nameInput').value;
+    const quantityValue = document.getElementById('quantityInput').value;
+    const nameValue = document.getElementById('nameInput').value;
 
-        qInput_p.textContent = quantityValue;
-        newNameInput_p.textContent = nameValue;
+    qInput_p.textContent = quantityValue;
+    newNameInput_p.textContent = nameValue;
+    const maxLength = 20;
+    if (newNameInput_p.textContent.length > maxLength) {
+        newNameInput_p.textContent = newNameInput_p.textContent.slice(0, maxLength) + '...';
+    };
 
-        document.getElementById('quantityInput').value = '';
-        document.getElementById('nameInput').value = '';
+    document.getElementById('quantityInput').value = '';
+    document.getElementById('nameInput').value = '';
 
 
     const quantityPlus_p = document.createElement('button');
@@ -389,6 +525,10 @@ function addNewInputs() {
     newDiv.appendChild(qInput_p);
     newDiv.appendChild(quantityPlus_p);
     allInputsContainer.appendChild(newDiv);
+
+    if (nameValue && quantityValue) {
+        dictionary[nameValue.trim()] = removeLeadingZero(quantityValue.trim()); // Добавляем в словарь
+    }
 
     const inputsContainer = document.querySelector('.inputs');
     allInputsContainer.appendChild(inputsContainer);
@@ -401,71 +541,163 @@ function addNewInputs() {
     quantityContainer.classList.remove("newInputContainer-isVisible");
     quantityInput.classList.remove("inputValid_leftSlide");
     quantityContainer.style.display = "none";
-    const plus = document.querySelector(".quantityPlus");
     plus.classList.add("hidden");
     input.blur();
     quantityInput.classList.remove("inputValid");
+    quantityInput.value = '1';
+    quantityArrow.classList.remove("clickMe");
 
     removesendData_formValid();
 
-    quantityArrow.classList.remove("clickMe");
-
     setTimeout(plusScroll, 300);
+    plus.classList.remove('plus_valid');
+    plus.textContent = '+';
 }
+
+plus.addEventListener("mouseenter", () => {
+    plus.classList.remove('plus_valid');
+    plus.textContent = '+';
+})
+
+
+
+
+
 
 sendData.addEventListener('mouseenter', function(event) {
     if (input.classList.contains("inputValid") && quantityInput.classList.contains("inputValid")) {
         sendData.classList.add("sendData_formValid");
+        plus.classList.add('plus_valid');
+        plus.textContent = '✔';
     } else {
         event.preventDefault();
         sendData.classList.remove("sendData_formValid");
+        plus.classList.remove('plus_valid');
+        plus.textContent = '+';
     }
 });
+
+
+
+
 
 sendData.addEventListener('click', () => {
     if (!quantityArrow.classList.contains("hidden")) {
         quantityArrow.classList.add("clickMe");
     }
 
-
-    if (input.classList.contains("inputValid") && quantityInput.classList.contains("inputValid")) {
-        // Уведомление об отправке формы
-        quantityInputClue.classList.add("clue_isVisible");
-        quantityInputClue.classList.remove("clue_is_NOT_Visible");
-        header.classList.add("header_onClue");
-
-        const timeline = document.querySelector(".clue-timeline");
-        const initialWidth = timeline.offsetWidth;
-        const decreaseAmount = initialWidth / 4;
-        let currentWidth = initialWidth;
-
-        let intervalId = setInterval(() => {
-            currentWidth -= decreaseAmount; // Уменьшаем ширину
-            timeline.style.width = currentWidth + 'px'; // Применяем новую ширину
-
-            // Если прошло 5 секунд, останавливаем интервал
-            if (currentWidth <= 0) {
-                clearInterval(intervalId);
-            }
-        }, 1000);
-
+    if (Clue.classList.contains("clue_isVisible")) {
         setTimeout(() => {
-            quantityInputClue.classList.add("clue_is_NOT_Visible");
-            header.classList.remove("header_onClue");
-            timeline.style.width = 100 + "vw";
-        }, 5000);
+            if (input.classList.contains("inputValid") && quantityInput.classList.contains("inputValid")) {
+                Clue.classList.add("clue_isVisible");
+                Clue.classList.remove("clue_is_NOT_Visible");
+                header.classList.add("header_onClue");
+                ClueTxt_from_sendData.classList.remove("hidden");
+        
+                const timeline = document.querySelector(".clue-timeline");
+                const initialWidth = 100;
+                const decreaseAmount = initialWidth / 4;
+                let currentWidth = initialWidth;
+                
+                timeline.style.width = initialWidth + 'vw';
+        
+                let intervalId = setInterval(() => {
+                    currentWidth -= decreaseAmount;
+                    timeline.style.width = currentWidth + 'vw';
+        
+                    if (currentWidth <= 0) {
+                        clearInterval(intervalId);
+                    }
+                }, 1000);
+        
+                if (Clue.classList.contains("clue_isVisible")) {
+                    sendData.classList.add('sendData_formValid');
+                }
+        
+                const timeoutId = setTimeout(() => {
+                    Clue.classList.add("clue_is_NOT_Visible");
+                    header.classList.remove("header_onClue");
+                    ClueTxt_from_sendData.classList.add("hidden");
+                    timeline.style.width = 100 + "vw";
+                    clearInterval(intervalId);
+                }, 5000);
+        
+                closeClue.addEventListener("click", () => {
+                    Clue.classList.add("clue_is_NOT_Visible");
+                    header.classList.remove("header_onClue");
+                    clearInterval(intervalId);
+                    clearTimeout(timeoutId);
+                    timeline.style.width = 100 + "vw";
+                    ClueTxt_from_sendData.classList.add("hidden");
+                });
+
+
+            } else {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+            }
+        }, 10);
     } else {
-        quantityInputClue.classList.add("clue_is_NOT_Visible");
-        header.classList.remove("header_onClue");
+        if (input.classList.contains("inputValid") && quantityInput.classList.contains("inputValid")) {
+            Clue.classList.add("clue_isVisible");
+            Clue.classList.remove("clue_is_NOT_Visible");
+            header.classList.add("header_onClue");
+            ClueTxt_from_sendData.classList.remove("hidden");
+    
+            const timeline = document.querySelector(".clue-timeline");
+            const initialWidth = 100;
+            const decreaseAmount = initialWidth / 4;
+            let currentWidth = initialWidth;
+            
+            timeline.style.width = initialWidth + 'vw';
+    
+            let intervalId = setInterval(() => {
+                currentWidth -= decreaseAmount;
+                timeline.style.width = currentWidth + 'vw';
+    
+                if (currentWidth <= 0) {
+                    clearInterval(intervalId);
+                }
+            }, 1000);
+    
+            if (Clue.classList.contains("clue_isVisible")) {
+                sendData.classList.add('sendData_formValid');
+            }
+    
+            const timeoutId = setTimeout(() => {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+                ClueTxt_from_sendData.classList.add("hidden");
+                timeline.style.width = 100 + "vw";
+                clearInterval(intervalId);
+            }, 5000);
+    
+            closeClue.addEventListener("click", () => {
+                Clue.classList.add("clue_is_NOT_Visible");
+                header.classList.remove("header_onClue");
+                clearInterval(intervalId);
+                clearTimeout(timeoutId);
+                timeline.style.width = 100 + "vw";
+                ClueTxt_from_sendData.classList.add("hidden");
+
+            });
+        } else {
+            Clue.classList.add("clue_is_NOT_Visible");
+            header.classList.remove("header_onClue");
+        }
     }
-})
+});
 
 function removesendData_formValid() {
     sendData.classList.remove('sendData_formValid');
 }
 
 input.addEventListener('input', () => {
-    if (input.value.trim() === "") {
+    if (input.value.trim() === "" && !quantityArrow.classList.contains('hidden')) {
+        input.classList.remove("inputValid");
+    }
+
+    if (input.value.trim() === "" && quantityArrow.classList.contains('hidden')) {
         input.blur();
         input.classList.remove("nameInputFocused");
         input.classList.remove("inputValid");
@@ -490,6 +722,372 @@ input.addEventListener('input', () => {
     }
 })
 
-// fileInput.addEventListener('mouseenter', () =>{
-//     modalBG.classList.remove("hidden");
-// })
+
+file_button.addEventListener("click", () => {
+    modal.classList.add("modal_isVisible");
+    modal.classList.remove("modal_isHidden");
+})
+
+modal_cancel.addEventListener("click", () => {
+    modal.classList.remove("modal_isVisible");
+    modal.classList.add("modal_isHidden");
+})
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.search_form');
+
+    form.addEventListener('submit', function(event) {
+        if (sendData.classList.contains("sendData_formValid")){
+            event.preventDefault();
+
+            const goodName = document.getElementById('nameInput').value.trim();
+            const goodQuantity = document.getElementById('quantityInput').value.trim();
+
+            dictionary[goodName] = removeLeadingZero(goodQuantity);
+    
+
+            const entries = Object.entries(dictionary);
+            const textContent = entries.map(function(entry) {
+                return entry[0] + ":" + entry[1];
+            }).join(',');
+            
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'dictionary.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            URL.revokeObjectURL(url);
+        }
+    });
+});
+
+setInterval(() => {
+    if (!ClueTxt_from_sendData.classList.contains("hidden")) {
+        detailSearch.classList.add("form_hidden");
+    }
+}, 1000)
+
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const content = e.target.result;
+            const file_dictionary = {};
+            
+            const entries = content.split(',').map(entry => entry.trim());
+            
+            entries.forEach(entry => {
+                const parts = entry.split(':');
+                if (parts.length === 2) {
+                    const key = parts[0].trim();
+                    const value = parseInt(parts[1].trim(), 10);
+                    if (!isNaN(value)) {
+                        file_dictionary[key] = value;
+                    }
+                }
+            });
+            
+            modal_f.classList.add("modal_isVisible");
+            modal_f.classList.remove("modal_isHidden");
+            output.textContent = JSON.stringify(file_dictionary, null, 2);
+            const maxLength = 85;
+            if (output.textContent.length > maxLength) {
+                output.textContent = output.textContent.slice(0, maxLength) + '...';
+            };
+            document.getElementById('cancel_f').addEventListener('click', () => {
+                modal_f.classList.remove("modal_isVisible");
+                modal_f.classList.add("modal_isHidden");
+            });
+            document.getElementById('enter_f').addEventListener('click', () => {
+                detailSearch.classList.add("form_hidden");
+                modal_f.classList.remove("modal_isVisible");
+                modal_f.classList.add("modal_isHidden");
+
+                const entries = Object.entries(file_dictionary);
+                const textContent = entries.map(function(entry) {
+                    return entry[0] + ":" + entry[1];
+                }).join(',');
+                
+                const blob = new Blob([textContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dictionary.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+
+
+
+                if (Clue.classList.contains("clue_isVisible")) {
+                    setTimeout(() => {
+                        Clue.classList.add("clue_isVisible");
+                        Clue.classList.remove("clue_is_NOT_Visible");
+                        header.classList.add("header_onClue");
+                        ClueTxt_from_sendData.classList.remove("hidden");
+                
+                        const timeline = document.querySelector(".clue-timeline");
+                        const initialWidth = 100;
+                        const decreaseAmount = initialWidth / 4;
+                        let currentWidth = initialWidth;
+                        
+                        timeline.style.width = initialWidth + 'vw';
+                
+                        let intervalId = setInterval(() => {
+                            currentWidth -= decreaseAmount;
+                            timeline.style.width = currentWidth + 'vw';
+                
+                            if (currentWidth <= 0) {
+                                clearInterval(intervalId);
+                            }
+                        }, 1000);
+                
+                        if (Clue.classList.contains("clue_isVisible")) {
+                            sendData.classList.add('sendData_formValid');
+                        }
+                
+                        const timeoutId = setTimeout(() => {
+                            Clue.classList.add("clue_is_NOT_Visible");
+                            header.classList.remove("header_onClue");
+                            ClueTxt_from_sendData.classList.add("hidden");
+                            timeline.style.width = 100 + "vw";
+                            clearInterval(intervalId);
+                        }, 5000);
+                
+                        closeClue.addEventListener("click", () => {
+                            Clue.classList.add("clue_is_NOT_Visible");
+                            header.classList.remove("header_onClue");
+                            clearInterval(intervalId);
+                            clearTimeout(timeoutId);
+                            timeline.style.width = 100 + "vw";
+                            ClueTxt_from_sendData.classList.add("hidden");
+                        });
+                    }, 10);
+                } else {
+                    Clue.classList.add("clue_isVisible");
+                    Clue.classList.remove("clue_is_NOT_Visible");
+                    header.classList.add("header_onClue");
+                    ClueTxt_from_sendData.classList.remove("hidden");
+            
+                    const timeline = document.querySelector(".clue-timeline");
+                    const initialWidth = 100;
+                    const decreaseAmount = initialWidth / 4;
+                    let currentWidth = initialWidth;
+                    
+                    timeline.style.width = initialWidth + 'vw';
+            
+                    let intervalId = setInterval(() => {
+                        currentWidth -= decreaseAmount;
+                        timeline.style.width = currentWidth + 'vw';
+            
+                        if (currentWidth <= 0) {
+                            clearInterval(intervalId);
+                        }
+                    }, 1000);
+            
+                    if (Clue.classList.contains("clue_isVisible")) {
+                        sendData.classList.add('sendData_formValid');
+                    }
+            
+                    const timeoutId = setTimeout(() => {
+                        Clue.classList.add("clue_is_NOT_Visible");
+                        header.classList.remove("header_onClue");
+                        ClueTxt_from_sendData.classList.add("hidden");
+                        timeline.style.width = 100 + "vw";
+                        clearInterval(intervalId);
+                    }, 5000);
+            
+                    closeClue.addEventListener("click", () => {
+                        Clue.classList.add("clue_is_NOT_Visible");
+                        header.classList.remove("header_onClue");
+                        clearInterval(intervalId);
+                        clearTimeout(timeoutId);
+                        timeline.style.width = 100 + "vw";
+                        ClueTxt_from_sendData.classList.add("hidden");
+                    });
+    
+    
+                }
+            })
+        };
+
+        
+        reader.readAsText(file);
+    }
+});
+
+
+
+
+
+
+document.getElementById('modal-fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    modal.classList.remove("modal_isVisible");
+    modal.classList.add("modal_isHidden");
+    
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const content = e.target.result;
+            const file_dictionary = {};
+            
+            const entries = content.split(',').map(entry => entry.trim());
+            
+            entries.forEach(entry => {
+                const parts = entry.split(':');
+                if (parts.length === 2) {
+                    const key = parts[0].trim();
+                    const value = parseInt(parts[1].trim(), 10);
+                    if (!isNaN(value)) {
+                        file_dictionary[key] = value;
+                    }
+                }
+            });
+            
+            modal_f.classList.add("modal_isVisible");
+            modal_f.classList.remove("modal_isHidden");
+            output.textContent = JSON.stringify(file_dictionary, null, 2);
+            const maxLength = 85;
+            if (output.textContent.length > maxLength) {
+                output.textContent = output.textContent.slice(0, maxLength) + '...';
+            };
+            document.getElementById('cancel_f').addEventListener('click', () => {
+                modal_f.classList.remove("modal_isVisible");
+                modal_f.classList.add("modal_isHidden");
+            });
+            document.getElementById('enter_f').addEventListener('click', () => {
+                detailSearch.classList.add("form_hidden");
+                modal_f.classList.remove("modal_isVisible");
+                modal_f.classList.add("modal_isHidden");
+
+                const entries = Object.entries(file_dictionary);
+                const textContent = entries.map(function(entry) {
+                    return entry[0] + ":" + entry[1];
+                }).join(',');
+                
+                const blob = new Blob([textContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dictionary.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+
+                if (Clue.classList.contains("clue_isVisible")) {
+                    setTimeout(() => {
+                        Clue.classList.add("clue_isVisible");
+                        Clue.classList.remove("clue_is_NOT_Visible");
+                        header.classList.add("header_onClue");
+                        ClueTxt_from_sendData.classList.remove("hidden");
+                
+                        const timeline = document.querySelector(".clue-timeline");
+                        const initialWidth = 100;
+                        const decreaseAmount = initialWidth / 4;
+                        let currentWidth = initialWidth;
+                        
+                        timeline.style.width = initialWidth + 'vw';
+                
+                        let intervalId = setInterval(() => {
+                            currentWidth -= decreaseAmount;
+                            timeline.style.width = currentWidth + 'vw';
+                
+                            if (currentWidth <= 0) {
+                                clearInterval(intervalId);
+                            }
+                        }, 1000);
+                
+                        if (Clue.classList.contains("clue_isVisible")) {
+                            sendData.classList.add('sendData_formValid');
+                        }
+                
+                        const timeoutId = setTimeout(() => {
+                            Clue.classList.add("clue_is_NOT_Visible");
+                            header.classList.remove("header_onClue");
+                            ClueTxt_from_sendData.classList.add("hidden");
+                            timeline.style.width = 100 + "vw";
+                            clearInterval(intervalId);
+                        }, 5000);
+                
+                        closeClue.addEventListener("click", () => {
+                            Clue.classList.add("clue_is_NOT_Visible");
+                            header.classList.remove("header_onClue");
+                            clearInterval(intervalId);
+                            clearTimeout(timeoutId);
+                            timeline.style.width = 100 + "vw";
+                            ClueTxt_from_sendData.classList.add("hidden");
+                        });
+                    }, 10);
+                } else {
+                    Clue.classList.add("clue_isVisible");
+                    Clue.classList.remove("clue_is_NOT_Visible");
+                    header.classList.add("header_onClue");
+                    ClueTxt_from_sendData.classList.remove("hidden");
+            
+                    const timeline = document.querySelector(".clue-timeline");
+                    const initialWidth = 100;
+                    const decreaseAmount = initialWidth / 4;
+                    let currentWidth = initialWidth;
+                    
+                    timeline.style.width = initialWidth + 'vw';
+            
+                    let intervalId = setInterval(() => {
+                        currentWidth -= decreaseAmount;
+                        timeline.style.width = currentWidth + 'vw';
+            
+                        if (currentWidth <= 0) {
+                            clearInterval(intervalId);
+                        }
+                    }, 1000);
+            
+                    if (Clue.classList.contains("clue_isVisible")) {
+                        sendData.classList.add('sendData_formValid');
+                    }
+            
+                    const timeoutId = setTimeout(() => {
+                        Clue.classList.add("clue_is_NOT_Visible");
+                        header.classList.remove("header_onClue");
+                        ClueTxt_from_sendData.classList.add("hidden");
+                        timeline.style.width = 100 + "vw";
+                        clearInterval(intervalId);
+                    }, 5000);
+            
+                    closeClue.addEventListener("click", () => {
+                        Clue.classList.add("clue_is_NOT_Visible");
+                        header.classList.remove("header_onClue");
+                        clearInterval(intervalId);
+                        clearTimeout(timeoutId);
+                        timeline.style.width = 100 + "vw";
+                        ClueTxt_from_sendData.classList.add("hidden");
+        
+                    });
+    
+    
+                }
+            })
+        };
+
+        
+        reader.readAsText(file);
+    }
+});
